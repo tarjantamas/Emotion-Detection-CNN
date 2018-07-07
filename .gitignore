@@ -1,0 +1,7 @@
+images/train/**
+images/validation/**
+images/test/**
+images/save/**
+models/keras/test/**
+__pycache__
+fer2013.csv
