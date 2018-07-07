@@ -4,7 +4,7 @@
 `tensorboard --logdir .\logs\ --host=127.0.0.1`
 
 ## Generating the images
-You can download this dataset [Here](https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data).
+You can download this dataset [here](https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data).
 We are using the fer2013 dataset which is provided in csv format.
 Each entry consists of a label and the pixels of the given image.
 You can export the data into images using
