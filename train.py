@@ -19,7 +19,7 @@ model.load_weights(REGULARIZED_WEIGHTS_PATH)
 model.fit_generator(
     train_generator,
     steps_per_epoch=50,
-    epochs=200,
+    epochs=20,
     validation_data=validation_generator,
     validation_steps=50,
     callbacks=[modelCheckpoint, tensorBoard])
