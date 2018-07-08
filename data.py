@@ -5,9 +5,9 @@ batch_size = BATCH_SIZE
 
 train_datagen = ImageDataGenerator(
     rescale=1./255,
-    shear_range=0.2,
-    zoom_range=0.2,
-    rotation_range=10,
+    # shear_range=0.2,
+    # zoom_range=0.2,
+    # rotation_range=10,
     horizontal_flip=True
 )
 

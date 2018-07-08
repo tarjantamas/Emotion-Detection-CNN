@@ -86,20 +86,18 @@ def buildModelMoreDenses():
         filters=64,
         kernel_size=(3, 3),
         kernel_initializer=VarianceScaling(),
-        activation='relu',
-        trainable=False
+        activation='relu'
     ))
     model.add(MaxPooling2D(
         pool_size=(2, 2),
         strides=(2, 2)
     ))
-
+    # model.add(Dropout(0.5))
     model.add(Conv2D(
-        filters=128,
+        filters=256,
         kernel_size=(3, 3),
         kernel_initializer=VarianceScaling(),
-        use_bias=False,
-        trainable=False
+        use_bias=False
     ))
     model.add(BatchNormalization(axis=-1))
     model.add(Activation('relu'))
@@ -107,13 +105,12 @@ def buildModelMoreDenses():
         pool_size=(2, 2),
         strides=(2, 2)
     ))
-
+    model.add(Dropout(0.5))
     model.add(Conv2D(
         filters=512,
         kernel_size=(3, 3),
         kernel_initializer=VarianceScaling(),
-        use_bias=False,
-        trainable=False
+        use_bias=False
     ))
     model.add(BatchNormalization(axis=-1))
     model.add(Activation('relu'))
@@ -121,14 +118,13 @@ def buildModelMoreDenses():
         pool_size=(2, 2),
         strides=(2, 2)
     ))
-
+    model.add(Dropout(0.5))
     model.add(Conv2D(
         filters=512,
         kernel_size=(3, 3),
         kernel_initializer=VarianceScaling(),
         kernel_regularizer=regularizers.l2(0.001),
-        use_bias=False,
-        trainable=False
+        use_bias=False
     ))
     model.add(BatchNormalization(axis=-1))
     model.add(Activation('relu'))
@@ -136,51 +132,43 @@ def buildModelMoreDenses():
         pool_size=(2, 2),
         strides=(2, 2)
     ))
-
+    model.add(Dropout(0.5))
     model.add(Flatten())
-
     model.add(Dense(
         units=512,
         kernel_initializer=VarianceScaling(),
         activation='relu'
     ))
-
     model.add(Dense(
         units=256,
         kernel_initializer=VarianceScaling(),
         activation='relu'
     ))
-
     model.add(Dense(
         units=128,
         kernel_initializer=VarianceScaling(),
         activation='relu'
     ))
-
     model.add(Dense(
         units=64,
         kernel_initializer=VarianceScaling(),
         activation='relu'
     ))
-
     model.add(Dense(
         units=32,
         kernel_initializer=VarianceScaling(),
         activation='relu'
     ))
-
     model.add(Dense(
         units=16,
         kernel_initializer=VarianceScaling(),
         activation='relu'
     ))
-
     model.add(Dense(
         units=7,
         kernel_initializer=VarianceScaling(),
         activation='softmax'
     ))
-
     model.compile(
         loss='categorical_crossentropy',
         optimizer="adam",
