@@ -4,10 +4,12 @@
   <title>
     Facial emotion recognition using convolutional neural networks
   </title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
+  </script>
 </head>
 
 <body>
-  <div class="poster">
+  <div class="poster" id="poster">
     <div class="header mat-elevation-z2">
       <div class="title">
         Facial emotion recognition using convolutional neural networks
@@ -85,6 +87,7 @@
               <div class="dense layer">DENSE</div>→
               <div class="softmax layer">SOFT MAX</div>
             </div>
+            <div class="center"><figcaption>Fig.2 - The initial model we used to get a feel for the data</figcaption></div>
             <br> &nbsp;&nbsp;&nbsp;&nbsp; This model wasn't able to converge and capped at around 40% average accuracy. After this we
             decided to progressively try adding more layers and increasing filter sizes. At this point our goal was to find a model
             which could be overfitted to the training data. During this process the validation accuracy was consistently lower than
@@ -93,8 +96,10 @@
             We tried using dropout, batch normalization and l2 regularization. The original dataset was provided in a csv format,
             which we decided to convert to actual images. This made it possible to use keras libraries for augmentation.
             <br> &nbsp;&nbsp;&nbsp;&nbsp; After a training a model which consisted of the above mentioned elements and reaching a validation
-            accuracy of 0.6 (at this point the model capped for some reason), we decided to freeze the convolutional layers and continue
+            accuracy of 60% (at this point the model capped for some reason), we decided to freeze the convolutional layers and continue
             training the fully-connected layers only. This yielded a validation accuracy of around 65%.
+            <br> &nbsp;&nbsp;&nbsp;&nbsp; Initial weight initializations were done using variance scaling. 
+            We used adam as the optimizer during training.
           </div>
         </div>
       </div>
@@ -114,8 +119,8 @@
             <div class="model">
               <div class="mult">3x
                 <div class="conv layer">CONV</div>→
-                <div class="relu layer">RELU</div>→
                 <div class="batchnorm layer">BATCH NORM</div>→
+                <div class="relu layer">RELU</div>→
                 <div class="maxpool layer">MAX POOL</div>
               </div>→
             </div>
@@ -127,6 +132,9 @@
               
               <div class="dense layer">DENSE</div>→
               <div class="softmax layer">SOFT MAX</div>
+            </div>
+            <div class="center">
+              <figcaption>Fig.3 - The final model we came up with</figcaption>
             </div>
           </div>
         </div>
@@ -159,6 +167,9 @@
                 <td>62%</td>
               </tr>
             </table>
+            <div class="center">
+              <figcaption>Table 1 - Per class mean accuracy</figcaption>
+            </div>
           </div>
         </div>
         <div class="section mat-elevation-z2">
@@ -171,6 +182,8 @@
             top contestants' results ranging from 60% to 65% accuracy. We conclude that facial emotion recognition using
             CNNs is a non trivial classification task and probably requires more sophisticated hyper parameter optimisation 
             and other methods which could improve the accuracy of the model.
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             This was a fun project to implement and we look forward to trying out other methods for solving this problem in 
             the future.
           </div>
@@ -185,6 +198,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="export.js"></script>
 </body>
 
 </html>
