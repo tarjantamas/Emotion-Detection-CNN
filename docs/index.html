@@ -1,0 +1,203 @@
+<html>
+
+<head>
+  <title>
+    Facial emotion recognition using convolutional neural networks
+  </title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
+  </script>
+</head>
+
+<body>
+  <div class="poster" id="poster">
+    <div class="header mat-elevation-z2">
+      <div class="title">
+        Facial emotion recognition using convolutional neural networks
+      </div>
+      <div class="subtitle">
+        Nikola Zeljković, Tamaš Tarjan
+      </div>
+      <div class="section-header">
+        Faculty of Technical Sciences
+      </div>
+    </div>
+    <div class="content">
+      <div class="col-separator"></div>
+      <div class="column">
+          <div class="section mat-elevation-z2">
+            <div class="section-header">
+              Problem description
+            </div>
+            <div class="section-content">
+        
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              Our goal was to create a convolutional neural network that can learn to detect the 7 basic emotions based on images of facial 
+              expressions. These emotions are anger, disgust, fear, hapiness, sadness, surprise and neutral.
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              Convolutional neural networks are widely used in image classification tasks such as street sign recognition, 
+              plant recognition, as well as large scale object detection and categorization and many other types of image 
+              classification tasks.
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              We were interested to see whether or not convolutional neural networks are able to distinguish between 
+              facial expressions and if so, what topology would best suite this type of classification task.
+            </div>
+          </div>
+        
+          <div class="section mat-elevation-z2 col1height">
+            <div class="section-header">
+              Dataset
+            </div>
+            <div class="section-content">
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              For our dataset we found a kaggle competition which was held in 2013 and provided a fully labeled dataset.
+              The dataset consists of three separate sets of data. One for training which consists of around 28000 images
+              each image belonging to one of the 7 classes. One validation set and one test set both of which contained
+              around 4000 images. The images are grayscale and their size is 48x48 pixels.
+              <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <br>
+              <div class="center">
+                <img class="center" src="assets/dataset.jpg" alt="An image containing a sample from the dataset">
+                <figcaption>Fig.1 - A sample taken from the dataset (3 images per class)</figcaption>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="col-separator"></div>
+      <div class="column">
+        <div class="section mat-elevation-z2 col2height">
+          <div class="section-header">
+            Experiments
+          </div>
+          <div class="section-content">
+            &nbsp;&nbsp;&nbsp;&nbsp; We used keras with a tensorflow backend to create, train and test our models.
+            <br> &nbsp;&nbsp;&nbsp;&nbsp; We decided to create a small CNN just to see how it behaves given the training data. Our first
+            model consisted of two convolution layers with a filter size of 16 and 32, relu as the activation function, each of them
+            followed by max pooling with a stride of shape (2, 2). The output of the convolution layers are then fed into a single
+            fully-connected layer with a softmax activation to produce the class probabilities.
+            <br>
+            <div class="model">
+              <div class="mult">2X
+                <div class="conv layer">CONV</div>→
+                <div class="relu layer">RELU</div>→
+                <div class="maxpool layer">MAX POOL</div>
+              </div>→
+              <div class="dense layer">DENSE</div>→
+              <div class="softmax layer">SOFT MAX</div>
+            </div>
+            <div class="center"><figcaption>Fig.2 - The initial model we used to get a feel for the data</figcaption></div>
+            <br> &nbsp;&nbsp;&nbsp;&nbsp; This model wasn't able to converge and capped at around 40% average accuracy. After this we
+            decided to progressively try adding more layers and increasing filter sizes. At this point our goal was to find a model
+            which could be overfitted to the training data. During this process the validation accuracy was consistently lower than
+            the training accuracy. The validation accuracy ranged from around 35% to 45%.
+            <br> &nbsp;&nbsp;&nbsp;&nbsp; The next step was trying out different techniques to reduce overfitting and improve generalization.
+            We tried using dropout, batch normalization and l2 regularization. The original dataset was provided in a csv format,
+            which we decided to convert to actual images. This made it possible to use keras libraries for augmentation.
+            <br> &nbsp;&nbsp;&nbsp;&nbsp; After a training a model which consisted of the above mentioned elements and reaching a validation
+            accuracy of 60% (at this point the model capped for some reason), we decided to freeze the convolutional layers and continue
+            training the fully-connected layers only. This yielded a validation accuracy of around 65%.
+            <br> &nbsp;&nbsp;&nbsp;&nbsp; Initial weight initializations were done using variance scaling. 
+            We used adam as the optimizer during training.
+          </div>
+        </div>
+      </div>
+      <div class="col-separator"></div>
+      <div class="column">
+        <div class="section mat-elevation-z2">
+          <div class="section-header">
+            Final model
+          </div>
+          <div class="section-content">
+            &nbsp;&nbsp;&nbsp;&nbsp; The topology of our final model looks like this:
+            <div class="model">
+              <div class="conv layer">CONV</div>→
+              <div class="relu layer">RELU</div>→
+              <div class="maxpool layer">MAX POOL</div>→
+            </div>
+            <div class="model">
+              <div class="mult">3x
+                <div class="conv layer">CONV</div>→
+                <div class="batchnorm layer">BATCH NORM</div>→
+                <div class="relu layer">RELU</div>→
+                <div class="maxpool layer">MAX POOL</div>
+              </div>→
+            </div>
+            <div class="model">
+              <div class="mult">5x
+                <div class="dense layer">DENSE</div>→
+                <div class="relu layer">RELU</div>
+              </div>→
+              
+              <div class="dense layer">DENSE</div>→
+              <div class="softmax layer">SOFT MAX</div>
+            </div>
+            <div class="center">
+              <figcaption>Fig.3 - The final model we came up with</figcaption>
+            </div>
+          </div>
+        </div>
+        <div class="section mat-elevation-z2">
+          <div class="section-header">
+            Final results
+          </div>
+          <div class="section-content">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            The test accuracy of the final model was around 65%. We decided to generate a per class classification report
+            to see which classes were hard to differentiate.
+            Per class classification:
+            <table border="1">
+              <tr>
+                <td>Anger</td>
+                <td>Disgust</td>
+                <td>Fear</td>
+                <td>Happiness</td>
+                <td>Sadness</td>
+                <td>Surprise</td>
+                <td>Neutral</td>
+              </tr>
+              <tr>
+                <td>58%</td>
+                <td>50%</td>
+                <td>46%</td>
+                <td>85%</td>
+                <td>50%</td>
+                <td>78%</td>
+                <td>62%</td>
+              </tr>
+            </table>
+            <div class="center">
+              <figcaption>Table 1 - Per class mean accuracy</figcaption>
+            </div>
+          </div>
+        </div>
+        <div class="section mat-elevation-z2">
+          <div class="section-header">
+            Conclusion
+          </div>
+          <div class="section-content">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            The best model in the kaggle competition yielded an accuracy of 70%, while our results matched most of the 
+            top contestants' results ranging from 60% to 65% accuracy. We conclude that facial emotion recognition using
+            CNNs is a non trivial classification task and probably requires more sophisticated hyper parameter optimisation 
+            and other methods which could improve the accuracy of the model.
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            This was a fun project to implement and we look forward to trying out other methods for solving this problem in 
+            the future.
+          </div>
+        </div>
+      </div>
+      <div class="col-separator"></div>
+    </div>
+    
+  </div>
+
+  
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</body>
+
+</html>
